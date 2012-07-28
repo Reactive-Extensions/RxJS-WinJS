@@ -26,6 +26,12 @@ To download the source of the jQuery Bindings for the Reactive Extensions for Ja
 * Binding
  * WinJS.Binding.as - toObservable
 
+* WebSockets
+ * Rx.Subject.fromWebSocket
+
+* Web Workers
+ * Rx.Subject.fromWebWorker
+
 * Promises
  * Promise.toObservable
  * Promise.prototype.toObservable
