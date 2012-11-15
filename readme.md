@@ -10,7 +10,7 @@ There are a number of ways to get started with the Windows 8 and WinJS Bindings 
 
 ### Download the Source
 
-To download the source of the jQuery Bindings for the Reactive Extensions for JavaScript, type in the following:
+To download the source of the WinJS Bindings for the Reactive Extensions for JavaScript, type in the following:
 
     git clone https://github.com/Reactive-Extensions/rxjs-winjs.git
     cd ./rxjs-winjs
