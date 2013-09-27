@@ -1,6 +1,6 @@
 {
   "name": "rx-winjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "rx.winjs.js",
   "dependencies": {
     "rxjs": "*"

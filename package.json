@@ -2,7 +2,7 @@
   "name": "rx-winjs",
   "title": "Reactive Extensions for JavaScript bindings for WinJS",
   "description": "Library for composing asynchronous and event-based operations in JavaScript extending the Windows WinJS library",
-  "version": "1.1.4",
+  "version": "1.0.1",
   "homepage": "https://github.com/Reactive-Extensions/rxjs-winjs",
   "author": {
     "name": "MS Open Tech",
