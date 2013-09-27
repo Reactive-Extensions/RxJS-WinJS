@@ -346,98 +346,96 @@
             }).publish().refCount();
         }
     };
-    
-    function createSensorObservable(sensor, eventName, reportInterval) {
+    /**
+     * Creates a wrapper for listening to WinJS sensor's events.
+     * @param {Object} sensor The WinJS sensor to attach the event listener.
+     * @param {String} eventName The event name to listen for.
+     * @returns {Observable} An observable sequence wrapping the Sensor's given event event.
+    */   
+    var fromSensorEvent = Rx.WinJS.fromSensorEvent = function (sensor, eventName) {
         return observableCreateWithDisposable(function (observer) {
-
-            if (typeof reportInterval !== 'undefined') {
-                var minimumReportInterval = sensor.minimumReportInterval;
-                sensor.reportInterval = minimumReportInterval > 16 ? minimumReportInterval : 16;                 
-            }
-
-            function handler(eventObject) {
-                observer.onNext(eventObject);
-            }
-
-            sensor.addEventListener(eventName, handler, false);
-
-            return disposableCreate(function () {
-                sensor.removeEventListener(eventName, handler, false);
-                sensor.reportInterval = 0;
-            });
-        }).publish().refCount();          
-    }
+           
+           if (!sensor) {
+               observer.onError('Sensor not supported');
+               return disposableEmpty;
+           }
+           
+           function handler(eventData) {
+               observer.onNext(eventData);
+           }
+           
+           sensor.addEventListener(sensor, eventName, false);
+           
+           return disposableCreate(function () {
+               sensor.removeEventListener(sensor, eventName, false);
+           });
+        }).publish().refCount();
+    };
     var accelerometer = Windows.Devices.Sensors.Accelerometer.getDefault();
-    if (accelerometer) {
 
-        Rx.WinJS.Accelerometer = {
+    Rx.WinJS.Accelerometer = {
 
-            /**
-             * Creates a wrapper for the Accelerometer which listens for the readingchanged event.
-             * @returns {Observable} An observable sequence wrapping the Accelerometer's readingchanged event.
-            */   
-            readingChanged: function (reportInterval) {
-                return createSensorObservable(accelerometer, 'readingchanged', reportInterval);
-            },
+        /**
+         * Creates a wrapper for the Accelerometer which listens for the readingchanged event.
+         * @returns {Observable} An observable sequence wrapping the Accelerometer's readingchanged event.
+        */   
+        readingChanged: function () {
+            return fromSensorEvent(accelerometer, 'readingchanged');
+        },
 
-            /**
-             * Creates a wrapper for the Accelerometer which listens for the shaken event.
-             * @returns {Observable} An observable sequence wrapping the Accelerometer's shaken event.
-            */  
-            shaken: function () {
-                return createAccelerometerObservable('shaken', reportInterval);
-            }
-        }   
-    }
+        /**
+         * Creates a wrapper for the Accelerometer which listens for the shaken event.
+         * @returns {Observable} An observable sequence wrapping the Accelerometer's shaken event.
+        */  
+        shaken: function () {
+            return fromSensorEvent(accelerometer, 'shaken');
+        }
+    }  
 	var compass = Windows.Devices.Sensors.Compass.getDefault();
-	if (compass) {
-		Rx.WinJS.Compass = {
 
-            /**
-             * Creates a wrapper for the Compass which listens for the readingchanged event.
-             * @returns {Observable} An observable sequence wrapping the Compass's readingchanged event.
-            */   
-			readingChanged: function (reportInterval) {
-				return createSensorObservable(compass, 'readingchanged', reportInterval);
-			}
-		};
-	}    var lightSensor = Windows.Devices.Sensors.LightSensor.getDefault();
-    if (lightSensor) {
+	Rx.WinJS.Compass = {
+        /**
+         * Creates a wrapper for the Compass which listens for the readingchanged event.
+         * @returns {Observable} An observable sequence wrapping the Compass's readingchanged event.
+        */   
+		readingChanged: function () {
+			return fromSensorEvent(compass, 'readingchanged');
+		}
+	};
+    var lightSensor = Windows.Devices.Sensors.LightSensor.getDefault();
 
-        Rx.WinJS.LightSensor = {
-             /**
-             * Creates a wrapper for the LightSensor which listens for the readingchanged event.
-             * @returns {Observable} An observable sequence wrapping the LightSensor's readingchanged event.
-             */
-            readingChanged: function (reportInterval) {
-                return createSensorObservable(lightSensor, 'readingchanged', reportInterval);
-            }  
-        };
-    }    var orientationSensor = Windows.Devices.Sensors.OrientationSensor.getDefault();
-    if (orientationSensor) {
+    Rx.WinJS.LightSensor = {
+         /**
+         * Creates a wrapper for the LightSensor which listens for the readingchanged event.
+         * @returns {Observable} An observable sequence wrapping the LightSensor's readingchanged event.
+         */
+        readingChanged: function () {
+            return fromSensorEvent(lightSensor, 'readingchanged');
+        }  
+    };
+    var orientationSensor = Windows.Devices.Sensors.OrientationSensor.getDefault();
 
-        Rx.WinJS.OrientationSensor = {
-             /**
-             * Creates a wrapper for the OrientationSensor which listens for the readingchanged event.
-             * @returns {Observable} An observable sequence wrapping the OrientationSensor's readingchanged event.
-             */
-            readingChanged: function (reportInterval) {
-                return createSensorObservable(orientationSensor, 'readingchanged', reportInterval);
-            }  
-        };
-    }    var simpleOrientationSensor = Windows.Devices.Sensors.SimpleOrientationSensor.getDefault();
-    if (simpleOrientationSensor) {
+    Rx.WinJS.OrientationSensor = {
+         /**
+         * Creates a wrapper for the OrientationSensor which listens for the readingchanged event.
+         * @returns {Observable} An observable sequence wrapping the OrientationSensor's readingchanged event.
+         */
+        readingChanged: function () {
+            return fromSensorEvent(orientationSensor, 'readingchanged');
+        }  
+    };
+    var simpleOrientationSensor = Windows.Devices.Sensors.SimpleOrientationSensor.getDefault();
 
-        Rx.WinJS.SimpleOrientationSensor = {
-             /**
-             * Creates a wrapper for the SimpleOrientationSensor which listens for the orientationchanged event.
-             * @returns {Observable} An observable sequence wrapping the SimpleOrientationSensor's orientationchanged event.
-             */
-            orientationChanged: function (reportInterval) {
-                return createSensorObservable(simpleOrientationSensor, 'orientationchanged', reportInterval);
-            }  
-        };
-    }
+    Rx.WinJS.SimpleOrientationSensor = {
+         /**
+         * Creates a wrapper for the SimpleOrientationSensor which listens for the orientationchanged event.
+         * @returns {Observable} An observable sequence wrapping the SimpleOrientationSensor's orientationchanged event.
+         */
+        orientationChanged: function (reportInterval) {
+            return fromSensorEvent(simpleOrientationSensor, 'orientationchanged');
+        }  
+    };
+
     // Get the right animation frame method
     var requestAnimFrame, cancelAnimFrame;
     if (window.requestAnimationFrame) {

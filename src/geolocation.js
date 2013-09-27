@@ -59,4 +59,3 @@
             }).publish().refCount();
         }
     };
-    

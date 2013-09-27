@@ -1,20 +1,25 @@
-    function createSensorObservable(sensor, eventName, reportInterval) {
+    /**
+     * Creates a wrapper for listening to WinJS sensor's events.
+     * @param {Object} sensor The WinJS sensor to attach the event listener.
+     * @param {String} eventName The event name to listen for.
+     * @returns {Observable} An observable sequence wrapping the Sensor's given event event.
+    */   
+    var fromSensorEvent = Rx.WinJS.fromSensorEvent = function (sensor, eventName) {
         return observableCreateWithDisposable(function (observer) {
-
-            if (typeof reportInterval !== 'undefined') {
-                var minimumReportInterval = sensor.minimumReportInterval;
-                sensor.reportInterval = minimumReportInterval > 16 ? minimumReportInterval : 16;                 
-            }
-
-            function handler(eventObject) {
-                observer.onNext(eventObject);
-            }
-
-            sensor.addEventListener(eventName, handler, false);
-
-            return disposableCreate(function () {
-                sensor.removeEventListener(eventName, handler, false);
-                sensor.reportInterval = 0;
-            });
-        }).publish().refCount();          
-    }
+           
+           if (!sensor) {
+               observer.onError('Sensor not supported');
+               return disposableEmpty;
+           }
+           
+           function handler(eventData) {
+               observer.onNext(eventData);
+           }
+           
+           sensor.addEventListener(sensor, eventName, false);
+           
+           return disposableCreate(function () {
+               sensor.removeEventListener(sensor, eventName, false);
+           });
+        }).publish().refCount();
+    };
