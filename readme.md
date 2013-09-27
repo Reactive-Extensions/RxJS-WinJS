@@ -12,8 +12,8 @@ There are a number of ways to get started with the WinJS Bindings for RxJS.
 
 To download the source of the WinJSBindings for the Reactive Extensions for JavaScript, type in the following:
 
-    git clone https://github.com/Reactive-Extensions/rxjs-winjs.git
-    cd ./rxjs-winjs
+    git clone https://github.com/Reactive-Extensions/RxJS-WinJS.git
+    cd ./RxJS-WinJS
 
 ## GETTING STARTED
 
