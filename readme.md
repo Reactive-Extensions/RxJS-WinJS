@@ -10,21 +10,10 @@ There are a number of ways to get started with the WinJS Bindings for RxJS.
 
 ### Download the Source
 
-To download the source of the WinJSBindings for the Reactive Extensions for JavaScript, type in the following:
+To download the source of the WinJS Bindings for the Reactive Extensions for JavaScript, type in the following:
 
     git clone https://github.com/Reactive-Extensions/RxJS-WinJS.git
     cd ./RxJS-WinJS
-
-## GETTING STARTED
-
-There are a number of ways to get started with the Windows 8 and WinJS Bindings Bindings for RxJS.  
-
-### Download the Source
-
-To download the source of the WinJS Bindings for the Reactive Extensions for JavaScript, type in the following:
-
-    git clone https://github.com/Reactive-Extensions/rxjs-winjs.git
-    cd ./rxjs-winjs
 
 ### Installing with [NPM](https://npmjs.org/)
 
@@ -74,7 +63,7 @@ There are a number of bridges to features for both HTML5 and WinJS features such
 * `WinJS.Promise.prototype.toObservable`
 * `Rx.Observable.prototype.toPromise`
 
-#### Sesnsors
+#### Sensors
 
 * `Rx.WinJS.fromSensorEvent`
 
